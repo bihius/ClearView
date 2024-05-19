@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v6.5.2/js/all.js"></script>
+    <title>{% block title %}ClearView{% endblock %}</title>
+    
+</head>
+
+<body>
+    <div class="columns is-gapless">
+        <div class="column is-narrow mr-2 ml-2 mt-4">
+            <aside class="menu">
+                <div class="container mr-2">
+                    <h3 class="title">ClearView</h3>
+                <ul class="menu-list">
+                    <li>
+                        <a href="/" class="is-flex is-align-items-center">
+                            <span class="icon-text">
+                                <span class="icon mr-2">
+                                    <i class="fa-regular fa-image fa-lg"></i>
+                                </span>
+                                <span class="is-size-5">Gallery</span>
+                            </span>
+                        </a> 
+                    </li>
+                    <li>
+                        <a href="/" class="is-flex is-align-items-center">
+                            <span class="icon-text">
+                                <span class="icon mr-2">
+                                    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+                                </span>
+                                <span class="is-size-5">Search</span>
+                            </span>
+                        </a> 
+                    </li>
+                    <li>
+                        <a href="/upload" class="is-flex is-align-items-center">
+                            <span class="icon-text">
+                                <span class="icon mr-2">
+                                    <i class="fa-solid fa-upload fa-lg"></i>
+                                </span>
+                                <span class="is-size-5">Upload</span>
+                            </span>
+                        </a> 
+                    </li>
+                    <li>
+                        <a href="/tags" class="is-flex is-align-items-center">
+                            <span class="icon-text">
+                                <span class="icon mr-2">
+                                    <i class="fa-solid fa-tags fa-lg"></i>
+                                </span>
+                                <span class="is-size-5">Tags</span>
+                            </span>
+                        </a> 
+                    </li>
+                    <li>
+                        <a href="/settings" class="is-flex is-align-items-center">
+                            <span class="icon-text">
+                                <span class="icon mr-2">
+                                    <i class="fa-solid fa-gear fa-lg"></i>
+                                </span>
+                                <span class="is-size-5">Settings</span>
+                            </span>
+                        </a> 
+                    </li>
+                </ul>
+            </aside>
+        </div>
+        <div class="column">
+            <div class="content">
+                <p>Hello world</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

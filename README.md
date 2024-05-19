@@ -8,11 +8,11 @@ The project is a image gallery that allows the user to upload images and then th
 # TODO
 
 - [X] Choose a model [EfficientDet]
-- [ ] Chose database 
-- [ ] GUI interface (django or flask)
+- [ ] Choose database 
+- [X] Choose web framework [Flask]
+- [X] Choose a front-end framework [Bulma]
 - [ ] Dockerize the project
 - [ ] Create report for the project 
-
 
 # Instruction
 
