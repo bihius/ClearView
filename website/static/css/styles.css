@@ -1,0 +1,19 @@
+body {
+    font-family: Arial, sans-serif;
+}
+h1 {
+    text-align: center;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+li {
+    margin: 10px;
+    display: inline-block;
+    text-align: center;
+}
+img {
+    max-width: 200px;
+    height: auto;
+}

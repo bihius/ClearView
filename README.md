@@ -8,7 +8,7 @@ The project is a image gallery that allows the user to upload images and then th
 # TODO
 
 - [X] Choose a model [EfficientDet]
-- [ ] Choose a database 
+- [X] Choose a database 
 - [X] Choose web framework [Flask]
 - [X] Choose a front-end framework [Bulma]
 - [ ] Dockerize the project
@@ -23,4 +23,36 @@ The project is a image gallery that allows the user to upload images and then th
 # Instruction
 
 1. Clone the repository
+2. Run in your terminal
+   
+```
+    pip install -r requirements.txt
+```
 
+then
+
+```
+    python website/scripts/create_db.py --load-dummy-data  
+```
+
+as a result you should see
+
+```
+Database created successfully.
+20 dummy photos added to the database.
+```
+
+and *instance/gallery.db* file should also be created
+
+3. Run in your terminal
+
+```
+python website/app.py
+```
+
+and visit with your browser:
+
+```
+http://127.0.0.1:5000
+```
+    

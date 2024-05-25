@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>My Gallery</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .banner {
+            background: url('https://placehold.co/600x200') no-repeat center center;
+            background-size: cover;
+            height: 200px;
+            width: 100%;
+        }
+        .album-button, .upload-button {
+            margin: 10px;
+        }
+        .center-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="banner my-4"></div>
+        <h1 class="my-4 text-center">Albumy</h1>
+        <div class="center-content">
+            {% for album in albums %}
+                <a href="{{ url_for('gallery', album_id=album.id) }}" class="btn btn-primary album-button">{{ album.name }}</a>
+            {% endfor %}
+            <a href="{{ url_for('upload') }}" class="btn btn-danger upload-button">Upload New Photo</a>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
