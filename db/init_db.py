@@ -1,44 +1,56 @@
 import sys
 from config import get_dotenv_config
 from psycopg2 import OperationalError, errors, errorcodes
+import logging
+
+logger = logging.getLogger(__name__)
 
 
-def init(connection):
-    # Initialize the database and schema.
-    try: 
-        create_database(connection.cursor())
-    except OperationalError as e:
-        print(f"Operational error during initialization: {e}")
-        sys.exit(1)
-    except errors.lookup(errorcodes.DUPLICATE_DATABASE):
-        print("Database already exists.")
-    except Exception as e:
-        print(f"Unexpected error during initialization: {e}")
-        sys.exit(1)
+def database_initialization(connection):
+    create_database(connection.cursor())
+    init_schema_and_tables(connection.cursor())
+    connection.cursor().close()
+    connection.close()
 
 def create_database(cursor):
     # Create the database 'clearview' if it doesn't exist.
-    print("Creating database...")
+    logging.INFO("Creating database 'clearview'")
     cursor.execute("SELECT datname FROM pg_database WHERE datname='clearview'")
+    
     if ("clearview",) not in cursor.fetchall():
         cursor.execute("CREATE DATABASE clearview")
     else:
-        print("Database already exists")
+        logging.warning("Database 'clearview' already exists")
         choice = input("Do you want to drop the database? (y/n): ")
+        
         if choice.lower() == "y":
+            logging.warning("Dropping database 'clearview'")
             cursor.execute("DROP DATABASE clearview")
             cursor.execute("CREATE DATABASE clearview")
+            
         else:
-            print("Exiting")
+            logging.warning("Exiting with no changes made.")
             sys.exit()
-    print("Database created successfully")
+            
+    logging.INFO("Database 'clearview' created successfully")
     cursor.close()
 
 def init_schema_and_tables(cursor):
-    print("Table 'images' does not exist. Creating table.")
-    # Create the 'clearview' schema and the 'images' table if they don't exist.
-    cursor.execute("CREATE SCHEMA IF NOT EXISTS clearview")
-    cursor.execute("""
+    logging.INFO("Creating schema and tables")
+    
+    try:
+        cursor.execute("CREATE SCHEMA IF NOT EXISTS clearview")
+        
+    except Exception as e:
+        logging.error(f"Error creating schema: {e}")
+        sys.exit(1)
+    except OperationalError as e:
+        logging.error(f"Operational error creating schema: {e}")
+        sys.exit(1)
+    logging.INFO("Schema 'clearview' created successfully")
+    
+    try:
+        cursor.execute("""
     CREATE TABLE IF NOT EXISTS clearview.images (
         id SERIAL PRIMARY KEY,
         name TEXT,
@@ -46,7 +58,15 @@ def init_schema_and_tables(cursor):
         vector BYTEA
     )
     """)
-    print("Table 'images' created successfully.")
+    except Exception as e:
+        logging.error(f"Error creating table: {e}")
+        sys.exit(1)
+    except OperationalError as e:
+        logging.error(f"Operational error creating table: {e}")
+        sys.exit(1)
+    
+    logging.INFO("Table 'images' created successfully")
+    
 
 if __name__ == "__main__":
-    init()
+    database_initialization()

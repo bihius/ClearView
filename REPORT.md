@@ -1,9 +1,9 @@
 # implemented functions
 
 # troubles
-At first I though about creating a new model, but I realized that would be too much work for the time I have. So I decided to use a pre-trained model. I found the EfficientDet model, which is a state-of-the-art object detection model. I will use it to detect and classify objects on images.
-Next trouble is Flask. I have never used it before, so I will have to learn how to use it. 
-Like before, I have never used Bulma before, so I will have to learn how to use it (I have some experience with CSS, so I think it will be easier).
+- Choosing model for the project was a really hard, I didn't choose one so I will use CLIP and Detectron2 simultaneously.
+- Everything in this project is new to me, I have to learn a lot of things.
+- Many hours spend on trying to find a best way to do something, like testing CLIP, Detectron2, FasterRCNN, many datasets like yolo, coco etc; comparing anything with anything, and so on. I also have to learn how to use jupyter notebook, setup (stable) environment, figuring out not to use fancy projects like supabase. 
 
 
 # tools
@@ -26,3 +26,4 @@ perplexity.ai
 chatgpt.com
 https://www.youtube.com/watch?v=dam0GPOAvVI
 bulma.io/documentation
+some of postgres cheatsheets
