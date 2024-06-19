@@ -8,8 +8,16 @@ import logging
 # Set up logging to file and console
 # ! move it to main app file
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', handlers=[logging.FileHandler('clearview.log'), logging.StreamHandler(sys.stdout)])
 logger = logging.getLogger(__name__)
+logging.basicConfig(
+    level=logging.INFO, 
+    format='%(levelname)s - %(asctime)s - %(message)s', 
+    datefmt='%Y-%m-%d %H:%M:%S',
+    handlers=[
+        logging.FileHandler('clearview.log'), 
+        logging.StreamHandler(sys.stdout)
+    ]
+)
 
 def create_connection(config, dbname=None):
     # Create a connection to the PostgreSQL server.
@@ -39,40 +47,40 @@ def create_connection(config, dbname=None):
             return create_connection(config, dbname)
         
         if "password authentication failed" in str(e):
-            logging.error("Password authentication failed.")
+            logger.error("Password authentication failed.")
             sys.exit(1)
             
         if "could not connect to server" in str(e):
-            logging.error("Could not connect to server.")
+            logger.error("Could not connect to server.")
             sys.exit(1)
             
     except Exception as e:
-        logging.error(f"Unexpected error creating connection: {e}")
+        logger.error(f"Unexpected error creating connection: {e}")
         sys.exit(1)
 
 def self_test():
     # Perform a self-test to ensure the database and tables exist.
     try:
-        logging.info("Performing self-test")
+        logger.info("Performing self-test")
         connection = create_connection(get_dotenv_config(), dbname="clearview")
         cursor = connection.cursor()
         cursor.execute("SELECT 1 FROM clearview.images LIMIT 1")
-        logging.info("Self-test passed")
+        logger.info("Self-test passed")
         cursor.close()
         connection.close()
         
     except OperationalError as e:
-        logging.error(f"Operational error during self-test: {e}")
+        logger.error(f"Operational error during self-test: {e}")
         sys.exit(1)
         
     except errors.lookup(errorcodes.UNDEFINED_TABLE):
-        cursor = connection.cursor()
-        init_schema_and_tables(cursor)
+
+        init_schema_and_tables(connection.cursor())
         cursor.close()
         connection.close()
         
     except Exception as e:
-        logging.error(f"Unexpected error during self-test: {e}")
+        logger.error(f"Unexpected error during self-test: {e}")
         sys.exit(1)
 
 def get_connection():
