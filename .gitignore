@@ -7,7 +7,9 @@ __pycache__/
 *.so
 
 # Virtual Environment
+venv
 venv/
+
 
 # Something old 
 old/
