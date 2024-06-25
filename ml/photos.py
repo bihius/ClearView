@@ -1,7 +1,7 @@
 import logging
 import hashlib
 
-from ..db.db_utils import create_connection
+logger = logging.getLogger(__name__)
 
 # hello there, general kenobi
 
@@ -11,13 +11,17 @@ def calculate_md5(image_path):
             data = f.read()
             return hashlib.md5(data).hexdigest()
         except Exception as e:
-            logging.error(f"Error while calculating md5 for {image_path}: {e}")
+            logger.error(f"Error while calculating md5 for {image_path}: {e}")
             return False
         
 def check_image_exist(cursor, image_hash):
     # don't know if that have sense
     cursor.execute("SELECT * FROM clearview.images WHERE hash = %s", (image_hash,))
-    return cursor.fetchone() is not None
+    if cursor.fetchone():
+        logger.info(f"Image with hash {image_hash} already exists in database")
+        return True
+    else:
+        return False
 
 def image_to_db(cursor, image_path, image_hash):
     cursor.execute("""
@@ -25,3 +29,11 @@ def image_to_db(cursor, image_path, image_hash):
         VALUES (%s, %s, %s)
     """, (image_path.split("/")[-1], image_path, image_hash))
     
+def process_image(cursor, image_path):
+    image_hash = calculate_md5(image_path)
+    if not check_image_exist(cursor, image_hash):
+        image_to_db(cursor, image_path, image_hash)
+        logger.info(f"Image {image_path} added to database")
+    else:
+        logger.info(f"Image {image_path} already exists in database")
+        
