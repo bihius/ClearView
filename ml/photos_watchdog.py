@@ -20,14 +20,14 @@ class ImageHandler(FileSystemEventHandler):
             logger.info("New image detected: %s", event.src_path)
             photos.process_image(get_connection().cursor(), event.src_path)
             
-def monitor_folder():
+def monitor_folder(path):
     event_handler = ImageHandler()
     observer = Observer()
-    observer.schedule(event_handler, images_path, recursive=True)
+    observer.schedule(event_handler, path, recursive=True)
     observer.start()
     
     try:
-        logger.info("Monitoring folder: %s", images_path)
+        logger.info("Monitoring folder: %s", path)
         while True:
             pass
     except KeyboardInterrupt:
