@@ -7,20 +7,24 @@ The project is a image gallery that allows the user to upload images and then th
 
 # TODO
 
-- [X] Choose a model [EfficientDet]
-- [X] Choose a database [SQLite] - I think that postgres would be better, so I started working on it
+- [X] Choose a model [Detectron2 + CLIP]
+- [X] Choose a database [Postgres]
 - [X] Choose web framework [Flask]
-- [X] Choose a front-end framework [Bulma]
+- [X] Choose a front-end framework [Bootstrap]
 - [ ] Dockerize the project
-- [ ] Create report for the project 
+- [ ] Create report for the project (working)
 - [X] Create a menu
 - [ ] Create a gallery
 - [ ] Create a upload form
-- [ ] Create a login form
 - [ ] Create search form
+- [X] Implement database initialization
+- [X] Implement (some of kind?) API
+- [X] Implement images scanning
+- [X] Test models
+- [ ] Implement models (soon will be working on it)
 
 
-# Instruction
+# Instruction | NOT WORKING YET !!! |
 
 1. Clone the repository
 2. Run in your terminal

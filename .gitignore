@@ -11,10 +11,6 @@ venv
 venv/
 
 
-# Something old 
-old/
-
-
 # Distribution / packaging
 .Python
 build/
