@@ -2,7 +2,7 @@ import sys
 from psycopg2 import connect, OperationalError, errors, errorcodes
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 import config
-from init_db import database_initialization, init_schema_and_tables
+from init_db import database_initialization, create_schema
 import logging
 
 
@@ -76,7 +76,7 @@ def self_test():
         
     except errors.lookup(errorcodes.UNDEFINED_TABLE):
 
-        init_schema_and_tables(connection.cursor())
+        create_schema(connection.cursor())
         cursor.close()
         connection.close()
         
@@ -88,7 +88,6 @@ def get_connection():
     # Get a connection to the 'clearview' database after performing a self-test.
     self_test()
     return create_connection(config.get_dotenv_config(), dbname="clearview")
-
 
 def close_connection(connection):
     # just close the connection to postgres

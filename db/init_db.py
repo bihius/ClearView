@@ -7,7 +7,13 @@ logger = logging.getLogger(__name__)
 
 def database_initialization(connection):
     create_database(connection.cursor())
-    init_schema_and_tables(connection.cursor())
+    create_schema(connection.cursor())
+    for query in create_table_queries:
+        if type(query) == dict:
+            for table_name, table_query in query.items():
+                create_table(connection.cursor(), table_name, table_query)
+        else:
+            connection.cursor().execute(query)
     connection.cursor().close()
     connection.close()
 
@@ -34,8 +40,8 @@ def create_database(cursor):
     logger.info("Database 'clearview' created successfully")
     cursor.close()
 
-def init_schema_and_tables(cursor):
-    logger.info("Creating schema and tables")
+def create_schema(cursor):
+    logger.info("Creating schema 'clearview'")
     
     try:
         cursor.execute("CREATE SCHEMA IF NOT EXISTS clearview")
@@ -49,21 +55,20 @@ def init_schema_and_tables(cursor):
         
     logger.info("Schema 'clearview' created successfully")
     
-    try:
-        cursor.execute("""
-    CREATE TABLE IF NOT EXISTS clearview.images (
-        id SERIAL PRIMARY KEY,
-        name TEXT,
-        path TEXT,
-        hash TEXT,
-        vector BYTEA
-    )
-    """)
-    except Exception as e:
-        logger.error(f"Error creating table: {e}")
-        sys.exit(1)
-    except OperationalError as e:
-        logger.error(f"Operational error creating table: {e}")
-        sys.exit(1)
+def create_table(cursor, table_name, table_query):
+    logger.info(f"Creating table '{table_name}'")
     
-    logger.info("Table 'images' created successfully")
+    try:
+        cursor.execute(table_query)
+        
+    except Exception as e:
+        logger.error(f"Error creating table '{table_name}': {e}")
+        sys.exit(1)
+        
+    except OperationalError as e:
+        logger.error(f"Operational error creating table '{table_name}': {e}")
+        sys.exit(1)
+        
+    logger.info(f"Table '{table_name}' created successfully")
+    
+create_table_queries = [{"images": "CREATE TABLE IF NOT EXISTS clearview.images (id SERIAL PRIMARY KEY, name TEXT, path TEXT, hash TEXT, vector BYTEA)"}, {"paths": "CREATE TABLE IF NOT EXISTS clearview.paths (id SERIAL PRIMARY KEY, path TEXT)"}, "CREATE TABLE IF NOT EXISTS clearview.paths (id SERIAL PRIMARY KEY, path TEXT)"]
