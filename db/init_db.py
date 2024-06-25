@@ -1,5 +1,5 @@
 import sys
-from db.config import get_dotenv_config
+from config import get_dotenv_config
 from psycopg2 import OperationalError, errors, errorcodes
 import logging
 

@@ -1,8 +1,8 @@
 import sys
 from psycopg2 import connect, OperationalError, errors, errorcodes
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
-import db.config
-from db.init_db import database_initialization, init_schema_and_tables
+import config
+from init_db import database_initialization, init_schema_and_tables
 import logging
 
 
@@ -41,7 +41,7 @@ def create_connection(config, dbname=None):
     
     except OperationalError as e:
         if "does not exist" in str(e):
-            connection = connect(**db.config.get_dotenv_config(), dbname="postgres")
+            connection = connect(**config.get_dotenv_config(), dbname="postgres")
             connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
             database_initialization(connection)
             connection.close()
@@ -63,7 +63,7 @@ def self_test():
     # Perform a self-test to ensure the database and tables exist.
     try:
         logger.info("Performing self-test")
-        connection = create_connection(db.config.get_dotenv_config(), dbname="clearview")
+        connection = create_connection(config.get_dotenv_config(), dbname="clearview")
         cursor = connection.cursor()
         cursor.execute("SELECT 1 FROM clearview.images LIMIT 1")
         logger.info("Self-test passed")
@@ -87,7 +87,7 @@ def self_test():
 def get_connection():
     # Get a connection to the 'clearview' database after performing a self-test.
     self_test()
-    return create_connection(db.config.get_dotenv_config, dbname="clearview")
+    return create_connection(config.get_dotenv_config(), dbname="clearview")
 
 if __name__ == "__main__":
     get_connection()
