@@ -18,7 +18,6 @@ def check_image_exist(cursor, image_hash):
     # don't know if that have sense
     cursor.execute("SELECT * FROM clearview.images WHERE hash = %s", (image_hash,))
     if cursor.fetchone():
-        logger.info(f"Image with hash {image_hash} already exists in database")
         return True
     else:
         return False

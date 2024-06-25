@@ -89,5 +89,16 @@ def get_connection():
     self_test()
     return create_connection(config.get_dotenv_config(), dbname="clearview")
 
+
+def close_connection(connection):
+    # just close the connection to postgres
+    try:
+        connection.close()
+        logger.info("Connection closed")
+    except Exception as e:
+        logger.error(f"Error while closing connection: {e}")
+        sys.exit(1)
+
+
 if __name__ == "__main__":
     get_connection()
