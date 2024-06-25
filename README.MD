@@ -24,7 +24,7 @@ The project is a image gallery that allows the user to upload images and then th
 - [ ] Implement models (soon will be working on it)
 
 
-# Instruction | NOT WORKING YET !!! |
+# Instruction | NOT WORKING YET |
 
 1. Clone the repository
 2. Run in your terminal
